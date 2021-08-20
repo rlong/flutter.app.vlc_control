@@ -71,7 +71,7 @@ class PlaylistScreenState extends State<PlaylistScreen> with TickerProviderState
 
     List<PlaylistEntry> messages = <PlaylistEntry>[];
     {
-      List<Node> children = parent!.getChildren();
+      List<Node> children = parent!.children;
       for( Node child in children ) {
 
         PlaylistEntry playlistEntry = new PlaylistEntry(

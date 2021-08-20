@@ -173,46 +173,71 @@ enum NodeType {
 
 class Node {
 
-  late NodeType type = NodeType.node;
+  NodeType type = NodeType.node;
   late Map value;
   late String name;
   late String id;
-
-  late List<Node> _children;
+  late List<Node> children;
 
   Node( {required this.value} ) {
 
     name = MapHelper.get<String>( value, "name" );
     id = MapHelper.get<String>( value, "id" );
+    _initChildren();
   }
 
-  List<Node> getChildren() {
+  _initChildren() {
 
-    if( this.type == NodeType.leaf ) {
+    // if( this.type == NodeType.leaf ) {
+    //
+    //   children = [];
+    //   return;
+    // }
 
-      return [];
-    }
+    print( "id:"+ id );
+    List<dynamic> childNodes = MapHelper.get<List<dynamic>>( value , "children");
+    print( "id:"+ id );
 
-    if( null == _children ) {
-      List<Map> childNodes = MapHelper.get<List<Map>>( value , "children");
-      _children = childNodes.map( (e) {
-        if( "node" == e["type"]) {
+    children = childNodes.map( (e) {
+      if( "node" == e["type"]) {
 
-          return new Node( value: e );
-        } else {
+        return new Node( value: e );
+      } else {
 
-          return new LeafNode( e );
-        }
-      } ).toList(growable: false);
-    }
+        return new LeafNode( e );
+      }
+    } ).toList(growable: false);
 
-    return _children;
 
   }
+
+  // List<Node> getChildren() {
+  //
+  //   if( this.type == NodeType.leaf ) {
+  //
+  //     return [];
+  //   }
+  //
+  //   if( null == _children ) {
+  //     List<Map> childNodes = MapHelper.get<List<Map>>( value , "children");
+  //     _children = childNodes.map( (e) {
+  //       if( "node" == e["type"]) {
+  //
+  //         return new Node( value: e );
+  //       } else {
+  //
+  //         return new LeafNode( e );
+  //       }
+  //     } ).toList(growable: false);
+  //   }
+  //
+  //   return _children;
+  //
+  // }
 
   getCurrent() {
 
-    return this.getChildren().firstWhere( (e) {
+    return this.children.firstWhere( (e) {
       if( NodeType.leaf == e.type ) {
         LeafNode leaf = e as LeafNode;
         return leaf.current;
@@ -246,7 +271,11 @@ class LeafNode extends Node {
     }
   }
 
-}
+  _initChildren() {
+    children = [];
+  }
+
+  }
 
 class Playlist {
 

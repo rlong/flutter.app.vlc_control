@@ -35,7 +35,7 @@ class VlcProxy {
 
     var baseUrl = 'http://127.0.0.1:8080';
     _baseStatusUrl = '$baseUrl/requests/status.json';
-    _playlistUrl = '$baseUrl/requests/playlist.json';
+    _playlistUrl = Uri.parse( '$baseUrl/requests/playlist.json' );
   }
 
 
